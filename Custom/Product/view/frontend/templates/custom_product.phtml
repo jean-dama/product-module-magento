@@ -1,0 +1,34 @@
+<?php
+
+/** @var \Custom\Product\Block\CustomProduct $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php
+    $product = $block->getConfiguredProduct();
+    $stock = $block->getProductStock($product);
+?>
+<?php if ($product && $block->canShowBlock()): ?>
+    <div class="real-product-quantity">
+        <h2><?= $escaper->escapeHtml($product->getName()) ?></h2>
+        <img src="<?= $escaper->escapeUrl($block->getImage($product)) ?>" 
+             alt="<?= $escaper->escapeHtml($product->getName()) ?>" />
+        <p class="price-wrapper">
+            <?= $escaper->escapeHtml(__('Price:'))?>
+            <?= $product->getFormatedPrice() ?>
+        </p>
+        <p>
+            <?= $escaper->escapeHtml(__('Stock:'))?>
+            <span class="stock" id="real-product-quantity">
+                <?= $stock ?>
+            </span>
+        </p>
+        <a class="action tocart primary" href="<?= $escaper->escapeUrl($block->getProductUrl($product)) ?>">View Product</a>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Custom_Product/js/real_product_qty": {}
+            }
+        }
+    </script>
+<?php endif; ?>
